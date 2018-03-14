@@ -2,7 +2,7 @@ var express = require('express');
 var bodyParser = require('body-parser');
 var path = require('path');
 var app = express();
-var User = require('./model/user');
+var User = require('./model/User');
 
 app.set('port', (process.env.PORT || 7000));
 
