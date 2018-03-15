@@ -4,13 +4,13 @@ function onDocumentLoad(){
 }
 
 function onClickLogin(){
-    var loginForm = document.getElementById('loginForm');
-    var signupForm = document.getElementById('signupForm');
-    var userData = localStorage.getItem('userData');
-    var fields = loginForm.querySelectorAll('input');
+    var loginForm    = document.getElementById('loginForm');
+    var signupForm   = document.getElementById('signupForm');
+    var userData     = localStorage.getItem('userData');
+    var fields       = loginForm.querySelectorAll('input');
     var rememberMeChkbox = loginForm.querySelector('#rememberMeChkbox');
-    var username = fields[0].value;
-    var password = fields[1].value;
+    var username         = fields[0].value;
+    var password         = fields[1].value;
     
     signupForm.style.display = "none";
     loginForm.style.display = "block";
@@ -46,12 +46,15 @@ function onLogin(){
     var password = document.getElementById('password');
 
     if(username.value && password.value){
+        hideShowLoadmask('show');
+        
         fetch('/getUser?username='+username.value+'&password='+password.value)
         .then(response => response.json())
         .catch(error => console.error('Error:', error))
         .then(response => {
             console.log('Success:', response);
 
+            hideShowLoadmask('hide');
             if(response){
                 if(response.status){
                     if(rememberMeChkbox.checked){
@@ -126,6 +129,8 @@ function onSignUp(){
             "password"  : password
         };
 
+        hideShowLoadmask('show');
+
         fetch('/saveUser',{
             method : 'post',
             headers: { 'Accept': 'application/json, text/plain, */*', 'Content-Type': 'application/json' },
@@ -135,7 +140,8 @@ function onSignUp(){
         .catch(error => console.error('Error:', error))
         .then(response => {
             console.log('Success:', response);
-    
+            hideShowLoadmask('hide');
+
             if(response.status){
                 console.log("User details saved!!");
                 loginForm.style.display = "block";
@@ -163,5 +169,12 @@ function clearForm(form){
 
     for(var i=0;i<fields.length;i++){
         fields[i].value = "";
+        fields[i].checked && (fields[i].checked=false);
     }
+}
+
+function hideShowLoadmask(type){
+    var loadmask = document.getElementById('loading');
+
+    loadmask.style.display = (type=="show") ? "block" : "none";
 }
