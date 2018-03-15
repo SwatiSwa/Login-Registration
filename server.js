@@ -6,8 +6,6 @@ var User = require('./model/User');
 
 app.set('port', (process.env.PORT || 7000));
 
-
-
 var mongoose = require('mongoose');
 
 var userCtrl = require('./public/js/app');

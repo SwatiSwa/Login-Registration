@@ -65,6 +65,10 @@ function onLogin(){
             
                         localStorage.setItem('userData', JSON.stringify(data));
                     }
+                    else{
+                        localStorage.removeItem('userData');
+                    }
+                    
                     console.log("User found!!");
                     loginForm.style.display = "none";
                     displayUserProfile(response.data);
